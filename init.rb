@@ -6,13 +6,19 @@ require 'base62'
 
 configure do
   root = File.expand_path(File.dirname(__FILE__))
-  app_config = YAML::load(File.read(File.join(root, 'config/app.yml')))
+  config_file = File.join(root, 'config', 'app.yml')
+  begin
+    app_config = YAML::load_file(config_file)
+    set :base_url, app_config["base_url"]
+  rescue
+    set :base_url, 'http://localhost:9292/'
+  end
   set :public_folder, File.join(root, 'app', 'static')                                   
-  set :views, File.join(root, 'app', 'views')                                   
-  set :base_url, app_config['base_url']
+  set :views, File.join(root, 'app', 'views')
+  set :db_url, "sqlite3://#{root}/uurl.db"
 end
 
-DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/uurl.db")
+DataMapper::setup(:default, settings.db_url)
 
 class COUNTER
     include DataMapper::Resource
