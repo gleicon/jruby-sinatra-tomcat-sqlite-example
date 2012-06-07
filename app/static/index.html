@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>url shortener</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script>
+    $(function(){
+        $("#shorten").submit(function() {
+            var u = $("#url").val();
+            var cb = function(w){
+                var res = $("#results");
+                uurl = w.base_url+w.e_url;
+                console.log(w);
+                res.append("url: <a href="+uurl+">" + uurl + "</a><br>");
+                res.append("stats: <a href="+uurl+"!>" + uurl + "!</a><br>");
+            };
+
+            $.post("/url", {url: u}, cb, "json");
+            return false;
+        }); 
+    });
+
+    </script>
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  </head>
+
+  <body>
+
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="#">chu.pe</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span5">
+          <h2>URL Shortening</h2><br>
+          <img src="/itsnothing.jpg"><br><br>
+          <p>URL Shortening</p>
+        </div>
+        <div class="span11">
+            <br><br><br>
+            <div class="login-form">
+          <p>URL shortener.</p><br>
+          <form method='POST' action='/url' id='shorten'>
+          <input style="width:500px; margin:5px" type='text' id = 'url' name='url' maxlength=1024 placeholder="URL to be shortened">
+          <input type='submit' name='submit' class="btn primary">
+      </form>
+  </div>
+        <div id="results">
+        </div>
+
+       </div>
+      </div>
+      <footer>
+        <p>&copy; 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

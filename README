@@ -1,0 +1,24 @@
+JRuby (and ruby) based url shortener
+
+### JRuby instructions
+Switch to your jruby env (package/rbenv/rvm)
+
+$ ruby -v (should yield jruby etc)
+$ jruby -v
+
+Run local
+$ rackup uurl.rb
+
+Check app.yml to match the right base url
+$ vi config/app.yml
+
+browse to localhost:9292, appreciate it, etc
+
+create a war file:
+
+Install warble:
+$ gem install warble
+$ warbler 
+
+deploy the resulting uurl.war and check the right context. tweak base_url to make sure that all links are working.
+
